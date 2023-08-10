@@ -1,13 +1,12 @@
 """
-Les images
+Les graphiques
 
 Date : 08-08-23
 Editeur : Laurent Reynaud
 """
 
-from taipy.gui import Gui, navigate, notify
+from taipy.gui import Gui, Icon, navigate, notify
 import pandas as pd
-import webbrowser
 
 """CONFIGURATION DE LA PAGE 01 : DF"""
 
@@ -80,47 +79,19 @@ page1="""
 <|{my_df}|table|properties=df_properties|>
 """
 
-"""CONFIGURATION DE LA PAGE 02 : HYPERLIENS ET IMAGE"""
-
-# Récupération de l'image
-image = 'data/dog.png'
-
-# Insertion d'un lien à l'image
-def image_action(state):
-    webbrowser.open("https://www.royalrepublic.net/")
-
-# Propriété de l'image sur la page @
-image_properties = {
-    "height":'250px',
-    'width':'250px',
-    'on_action':'image_action',
-}
-
-# Configuration de présentation de la page @ - page 2
-page2="""
-# Hyperliens et image
-
-Cette page a été conçue avec la librairie [Taipy](https://www.taipy.io/)
-
-<|{image}|image|properties=image_properties|>
-"""
-
-"""CONFIGURATION DE LA PAGE 3"""
+"""CONFIGURATION DE LA PAGE 02 : GRAPHIQUE"""
 
 # Propriété du graphique sur la page @
 chart_properties = {
     'x':'Date',
     'y[1]':'MaxTemp',
     'y[2]':'MinTemp',
-    'y[3]':'Rainfall',
     'color[1]':'red',
     'color[2]':'blue',
-    'color[3]':'yellow',
-    'line[3]':'dash',
 }
 
 # Configuration de présentation de la page @ - page 3
-page3="""
+page2="""
 # Graphique
 
 <|{my_df}|chart|properties=chart_properties|>
@@ -134,17 +105,19 @@ def on_menu(state, var_name, function_name, info):
     navigate(state, to=page)
 
 # Propriétés du menu sur la page @
+menu_list = [  # Icônes des menus
+    ('Page-1', Icon('data/forward.png', 'Page 1')),
+    ('Page-2', Icon('data/play.png', 'Page 2'))]
 menu_properties = {
     "on_action":on_menu, # Récupération de la fonction on_menu
 }
 
 # Configuration de présentation de la page @ avec le menu
-page ="<|menu|label=Menu|lov={[('Page-1', 'Page 1'), ('Page-2', 'Page 2'), ('Page-3', 'Page 3')]}|properties=menu_properties|>"
+page ="<|menu|label=Menu|lov={menu_list}|properties=menu_properties|>"
 pages = {
     "/": page,
     "Page-1": page1,
     "Page-2": page2,
-    "Page-3": page3,
 }
 
 Gui(pages=pages).run(dark_mode=True)

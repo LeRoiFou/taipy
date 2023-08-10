@@ -1,5 +1,5 @@
 """
-Taipy : multi-pages
+Taipy : hyperliens
 
 Documentation : https://docs.taipy.io/en/release-2.3/getting_started/getting-started-gui/step_07/ReadMe/
 
@@ -7,7 +7,7 @@ Date : 02-08-2023
 Editeur : Laurent Reynaud
 """
 
-from taipy.gui import Gui, navigate, notify
+from taipy.gui import Gui, Icon, navigate, notify
 import pandas as pd
 
 """CONFIGURATION DE LA PAGE 01 : DF"""
@@ -98,12 +98,15 @@ def on_menu(state, var_name, function_name, info):
     navigate(state, to=page)
 
 # Propriétés du menu sur la page @
+menu_list = [  # Icônes des menus
+    ('Page-1', Icon('data/forward.png', 'Page 1')),
+    ('Page-2', Icon('data/play.png', 'Page 2'))]
 menu_properties = {
     "on_action":on_menu, # Récupération de la fonction on_menu
 }
 
 # Configuration de présentation de la page @ avec le menu
-page ="<|menu|label=Menu|lov={[('Page-1', 'Page 1'), ('Page-2', 'Page 2')]}|properties=menu_properties|>"
+page ="<|menu|label=Menu|lov={menu_list}|properties=menu_properties|>"
 pages = {
     "/": page,
     "Page-1": page1,
